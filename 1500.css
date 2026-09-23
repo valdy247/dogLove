@@ -9,3 +9,93 @@ footer{background:#f1efec;padding:62px 0 22px}.footer-main{display:grid;grid-tem
 .booking-layout{display:grid;grid-template-columns:.85fr 1.15fr;gap:60px;align-items:start}.booking-summary{position:sticky;top:110px}.booking-summary h2{font-size:clamp(2.3rem,4.5vw,4rem);line-height:1.03;margin:10px 0 17px}.booking-summary>p{color:var(--muted)}.summary-box{margin-top:26px;background:var(--ink);color:white;border-radius:25px;padding:24px}.summary-box div{display:flex;justify-content:space-between;gap:20px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}.summary-box div:last-child{border:0}.summary-box span{color:#aaa8b7}.booking-form{background:white;border:1px solid var(--line);border-radius:30px;padding:30px;box-shadow:0 18px 45px rgba(31,24,86,.07)}.booking-form h3{font-size:1.45rem;margin:0 0 6px}.booking-form>.muted{color:var(--muted);margin:0 0 24px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{display:grid;gap:7px}.field.full{grid-column:1/-1}.field span{font-size:.77rem;font-weight:800;color:#575462}.field input,.field select,.field textarea{width:100%;border:1px solid #dedbe6;border-radius:14px;background:#fbfafc;padding:13px 14px;outline:none;color:var(--ink)}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(117,102,246,.09)}.booking-actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:20px}.pay-btn{background:linear-gradient(90deg,var(--purple),var(--pink));color:white}.form-note{font-size:.78rem;color:var(--muted);margin-top:15px}.status-box{display:none;margin-top:16px;border-radius:14px;padding:13px 14px;font-size:.86rem}.status-box.show{display:block}.status-box.ok{background:#eaf8ef;color:#26774b}.status-box.warn{background:#fff4df;color:#845b15}.contact-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.contact-card{border:1px solid var(--line);border-radius:24px;padding:25px;background:white}.contact-card span{font-size:1.7rem}.contact-card h3{margin:25px 0 7px}.contact-card p{color:var(--muted);margin:0}.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}.reveal.visible{opacity:1;transform:none}
 @media(max-width:960px){.nav{position:fixed;left:18px;right:18px;top:82px;display:none;flex-direction:column;align-items:stretch;background:white;padding:20px;border-radius:24px;box-shadow:0 25px 70px rgba(16,17,29,.18)}.nav.open{display:flex}.menu-toggle{display:block}.hero-grid,.exp-grid,.tech-card,.page-hero .container,.story-grid,.booking-layout{grid-template-columns:1fr}.hero-media{min-height:520px}.section-head{align-items:start;flex-direction:column}.service-grid,.steps-grid,.review-grid,.contact-cards{grid-template-columns:1fr}.gallery-preview{grid-template-columns:1fr 1fr;grid-template-rows:280px 220px 220px}.tall{grid-row:auto;grid-column:1/3}.wide{grid-column:1/3}.page-badge{justify-self:start}.story-panel,.booking-summary{position:relative;top:auto}.detail-card{grid-template-columns:1fr}.gallery-full{grid-template-columns:1fr 1fr}.footer-main{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}
 @media(max-width:650px){.container{width:min(100% - 26px,1180px)}.site-header{padding:8px 0}.premium-hero{min-height:auto;padding:108px 0 75px}.hero h1{font-size:3.65rem}.hero-media{min-height:410px}.fc-top{left:12px;top:14px}.fc-bottom{left:12px;right:12px;bottom:14px}.scroll-note{display:none}.section{padding:82px 0}.service-card{min-height:330px}.exp-visual{min-height:430px}.big-paw{font-size:9rem}.years-card{left:18px;top:18px}.care-card{left:18px;right:18px;bottom:18px}.gallery-preview{grid-template-columns:1fr;grid-template-rows:repeat(4,210px)}.tall,.wide{grid-column:auto}.tech-card{padding:26px}.tech-grid{grid-template-columns:1fr}.final-card{align-items:flex-start;flex-direction:column;padding:30px}.final-actions{justify-items:start}.whatsapp-float span{display:none}.whatsapp-float{width:54px;padding:0;justify-content:center}.footer-main{grid-template-columns:1fr;gap:28px}.footer-brand{grid-column:auto}.footer-bottom{flex-direction:column;gap:9px}.page-hero{padding:125px 0 60px}.detail-card{padding:25px}.gallery-full{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.booking-form{padding:22px}.booking-actions{flex-direction:column}.booking-actions .btn{width:100%}}
+
+/* Premium demo imagery */
+.image-slot{
+  background-image:linear-gradient(to top,rgba(15,13,37,.22),transparent 45%),url("7251fcc9-298b-4392-9e66-af2479bb7d44.png");
+  background-size:cover;
+  background-position:center;
+}
+.exp-visual{
+  background-image:linear-gradient(to top,rgba(18,13,45,.22),rgba(18,13,45,.02) 55%),url("ChatGPT%20Image%20Sep%2023%2C%202026%2C%2005_45_42%20PM.png");
+  background-size:cover;
+  background-position:center;
+}
+.exp-visual .exp-orb,.exp-visual .big-paw{display:none}
+
+.gallery-tile{
+  background-size:cover!important;
+  background-position:center!important;
+  isolation:isolate;
+}
+.gallery-tile:after,.gallery-placeholder:after,.detail-media:after,.story-panel:before,.booking-photo:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top,rgba(16,17,29,.58),rgba(16,17,29,.04) 62%);
+  pointer-events:none;
+}
+.gallery-tile>div,.gallery-placeholder>div{z-index:2}
+.gallery-tile.tall{background-image:url("3.png")}
+.gallery-tile.pink{background-image:url("33.png")}
+.gallery-tile.gold{background-image:url("4.png")}
+.gallery-tile.wide{background-image:url("5.png")}
+.gallery-tile:before{display:none}
+.gallery-tile small{color:rgba(255,255,255,.78)}
+.gallery-tile span{color:white;text-shadow:0 2px 16px rgba(0,0,0,.28)}
+
+.detail-media{
+  height:220px;
+  margin-top:24px;
+  border-radius:22px;
+  position:relative;
+  overflow:hidden;
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 18px 40px rgba(24,18,72,.12);
+}
+.detail-media.grooming-media{background-image:url("3.png")}
+.detail-media.training-media{background-image:url("33.png")}
+.detail-media.care-media{background-image:url("ChatGPT%20Image%20Sep%2023%2C%202026%2C%2005_45_42%20PM.png")}
+.detail-media:after{background:linear-gradient(to top,rgba(16,17,29,.18),transparent 50%)}
+
+.story-panel{
+  background-image:linear-gradient(to top,rgba(16,17,29,.24),rgba(16,17,29,.02) 58%),url("ChatGPT%20Image%20Sep%2023%2C%202026%2C%2005_45_42%20PM.png");
+  background-size:cover;
+  background-position:center;
+}
+.story-panel:after{display:none}
+.story-panel:before{z-index:1;background:linear-gradient(to top,rgba(16,17,29,.22),transparent 55%)}
+.story-panel .years-card{z-index:2}
+
+.gallery-placeholder{
+  background-size:cover!important;
+  background-position:center!important;
+  color:white;
+  isolation:isolate;
+}
+.gallery-placeholder:nth-child(1){background-image:url("3.png")}
+.gallery-placeholder:nth-child(2){background-image:url("5.png")}
+.gallery-placeholder:nth-child(3){background-image:url("33.png")}
+.gallery-placeholder:nth-child(4){background-image:url("4.png")}
+.gallery-placeholder:nth-child(5){background-image:url("ChatGPT%20Image%20Sep%2023%2C%202026%2C%2005_45_42%20PM.png")}
+.gallery-placeholder:nth-child(6){background-image:url("7251fcc9-298b-4392-9e66-af2479bb7d44.png")}
+.gallery-placeholder:nth-child(7){background-image:url("3.png")}
+.gallery-placeholder:nth-child(8){background-image:url("5.png")}
+.gallery-placeholder:nth-child(9){background-image:url("33.png")}
+.gallery-placeholder:before{display:none}
+.gallery-placeholder:after{background:linear-gradient(to top,rgba(16,17,29,.62),rgba(16,17,29,.03) 65%)}
+.gallery-placeholder small{color:rgba(255,255,255,.8)}
+
+.booking-photo{
+  position:relative;
+  min-height:280px;
+  margin:24px 0;
+  border-radius:26px;
+  overflow:hidden;
+  background-image:url("5.png");
+  background-size:cover;
+  background-position:center;
+  box-shadow:0 20px 45px rgba(31,24,86,.12);
+}
+.booking-photo:after{background:linear-gradient(to top,rgba(16,17,29,.2),transparent 55%)}
