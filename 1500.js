@@ -123,3 +123,17 @@ if(bookingForm){
     });
   }
 }
+
+
+const paymentFlag=new URLSearchParams(location.search).get("payment");
+const paymentStatus=document.getElementById("bookingStatus");
+if(paymentStatus&&paymentFlag==="success"){
+  paymentStatus.textContent="Pago completado. Ahora puedes enviar tu solicitud por WhatsApp para confirmar la cita.";
+  paymentStatus.className="status-box show ok";
+  track("payment_success");
+}
+if(paymentStatus&&paymentFlag==="cancelled"){
+  paymentStatus.textContent="El pago fue cancelado. No se realizó ningún cargo.";
+  paymentStatus.className="status-box show warn";
+  track("payment_cancelled");
+}
