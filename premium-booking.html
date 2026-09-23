@@ -15,9 +15,9 @@
 <a class="nav-cta active" href="premium-booking.html">Reservar <span>↗</span></a>
 </nav></div></header>
 <main>
-<section class="page-hero"><div class="container"><div class="reveal"><span class="kicker">Reserva online</span><h1>Agenda fácil.<br><em>Confirma sin vueltas.</em></h1><p>Completa tu solicitud. La demo puede continuar por WhatsApp y está preparada para activar confirmación automática por email y pago con Stripe.</p></div><div class="page-badge reveal"><strong>Flujo premium</strong><span>Reserva + conversión + pago + tracking, todo preparado para conectar las cuentas reales del negocio.</span></div></div></section>
+<section class="page-hero booking-hero"><div class="container"><div class="reveal"><span class="kicker">Reserva tu visita</span><h1>Cuéntanos qué<br><em>necesita tu mascota.</em></h1><p>Solicita tu fecha preferida en menos de dos minutos. Te contactaremos para confirmar disponibilidad y los detalles del servicio.</p><div class="booking-hero-proof"><span>✦ Grooming a domicilio</span><span>✦ Confirmación directa</span><span>✦ Atención uno a uno</span></div></div><div class="booking-hero-card reveal"><span>PRÓXIMO PASO</span><strong>Elige servicio + fecha</strong><p>Después confirmamos contigo por WhatsApp.</p><a href="#bookingForm">Comenzar reserva ↓</a></div></div></section>
 <section class="content-section"><div class="container booking-layout">
-<aside class="booking-summary reveal"><span class="kicker">Tu solicitud</span><h2>Unos datos y<br>nos encargamos del resto.</h2><p>No se realizará ningún cobro real en esta demo mientras la cuenta de pagos del negocio no esté conectada.</p>
+<aside class="booking-summary reveal"><span class="kicker">Tu solicitud</span><h2>Unos datos y<br>nos encargamos del resto.</h2><p>Selecciona el servicio, dinos cuándo te funciona y deja los detalles importantes de tu mascota.</p>
 <div class="booking-photo reveal" aria-label="Mascota recién arreglada"></div>
 <div class="summary-box"><div><span>Servicio</span><strong id="summaryService">Por elegir</strong></div><div><span>Mascota</span><strong id="summaryPet">Por indicar</strong></div><div><span>Fecha</span><strong id="summaryDate">Por elegir</strong></div></div>
 </aside>
@@ -27,13 +27,13 @@
 <label class="field"><span>Tu nombre</span><input required name="name" autocomplete="name" placeholder="Nombre completo"></label>
 <label class="field"><span>Teléfono</span><input required name="phone" autocomplete="tel" placeholder="(000) 000-0000"></label>
 <label class="field"><span>Nombre de tu mascota</span><input required name="pet" placeholder="Ej. Luna"></label>
-<label class="field"><span>Servicio</span><select required name="service"><option value="">Seleccionar servicio</option><option>Pet Grooming</option><option>Entrenamiento Canino</option><option>Cuidado Personalizado</option></select></label>
+<label class="field"><span>Servicio</span><select required name="service"><option value="">Seleccionar servicio</option><option>Grooming completo</option><option>Baño & Spa</option><option>Corte de uñas</option><option>Corte / trim</option><option>Cuidado personalizado</option></select></label>
 <label class="field"><span>Fecha preferida</span><input required type="date" name="date"></label>
 <label class="field"><span>Horario</span><select name="time"><option>Flexible</option><option>Mañana</option><option>Tarde</option><option>Fin de semana</option></select></label>
 <label class="field full"><span>Detalles adicionales</span><textarea name="notes" rows="4" placeholder="Edad, raza, comportamiento, necesidades especiales..."></textarea></label>
 </div>
-<div class="booking-actions"><button class="btn primary" type="submit">Enviar y confirmar por WhatsApp <span>↗</span></button><button class="btn pay-btn" type="button" id="payDeposit">Pagar depósito <span>↗</span></button></div>
-<p class="form-note">El pago real se activa conectando Stripe. La automatización por email se activa conectando la cuenta del negocio en Vercel.</p>
+<div class="booking-actions"><button class="btn primary" type="submit">Enviar y confirmar por WhatsApp <span>↗</span></button></div>
+<p class="form-note">Enviar esta solicitud no confirma automáticamente la cita. Pawsitive Love Dog te contactará para confirmar disponibilidad.</p>
 <div class="status-box" id="bookingStatus"></div>
 </form>
 </div></section>
@@ -45,11 +45,11 @@
 </main><a class="whatsapp-float" href="https://wa.me/13059343028" target="_blank" rel="noopener" aria-label="WhatsApp">✆<span>WhatsApp</span></a>
 <footer>
   <div class="container footer-main">
-    <div class="footer-brand"><a class="brand" href="1500.html"><span class="brand-mark">🐾</span><span>Pawsitive Love <b>Dog</b></span></a><p>Pet grooming a domicilio y entrenamiento canino con métodos positivos y atención personalizada.</p></div>
+    <div class="footer-brand"><a class="brand" href="1500.html"><span class="brand-mark">🐾</span><span>Pawsitive Love <b>Dog</b></span></a><p>Pet grooming a domicilio, baño, corte, uñas y atención personalizada.</p></div>
     <div><h4>Explora</h4><a href="premium-services.html">Servicios</a><a href="premium-about.html">Nosotros</a><a href="premium-gallery.html">Galería</a><a href="premium-booking.html">Reservar</a></div>
     <div><h4>Contacto</h4><a href="tel:+13059343028">(305) 934-3028</a><a href="https://wa.me/13059343028" target="_blank" rel="noopener">WhatsApp</a><a href="mailto:pawsitivelovedog20@yahoo.com">Email</a></div>
   </div>
-  <div class="container footer-bottom"><span>© 2026 Pawsitive Love Dog</span><a href="index.html">← Comparar demos</a></div>
+  <div class="container footer-bottom"><span>© 2026 Pawsitive Love Dog</span><span>Grooming · Bath · Nails · Personalized care</span></div>
 </footer><script src="1500.js"></script>
 <script>const qs=new URLSearchParams(location.search);const preset=qs.get("service");if(preset){const el=document.querySelector('[name="service"]');if(el){el.value=preset;el.dispatchEvent(new Event("input"))}}</script>
 </body></html>
