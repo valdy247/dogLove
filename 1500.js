@@ -187,8 +187,8 @@ if(bookingDrawer&&bookingWizard){
     const fd=new FormData(bookingWizard),services=serviceChecks.filter(x=>x.checked).map(x=>x.value);
     const data=Object.fromEntries(fd.entries());data.services=services;data.service=services.join(", ");data.total=total();
     const status=document.getElementById("wizardStatus");submit.disabled=true;submit.textContent="Enviando…";
-    try{const r=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const out=await r.json();status.textContent=out?.saved||out?.sent?"Solicitud recibida. Te contactaremos para confirmar la cita.":"No pudimos guardar la solicitud. Intenta de nuevo.";status.className="status-box show "+(out?.saved||out?.sent?"ok":"warn");if(out?.saved||out?.sent)bookingWizard.reset();refreshTotal()}
-    catch{status.textContent="No pudimos enviar la solicitud. Intenta de nuevo.";status.className="status-box show warn"}
+    try{const r=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const out=await r.json();const pay=document.getElementById("payOnline")?.checked;status.textContent=pay?"Vista previa: este pago llegará a tu cuenta de Stripe o al procesador que elijamos cuando esté conectado. La solicitud aparecerá en el panel de administrador para aprobarla.":"Vista previa: esta solicitud aparecerá en tu panel de administrador para revisarla y aprobarla.";status.className="status-box show demo";bookingWizard.reset();refreshTotal()}
+    catch{status.textContent="Vista previa: esta solicitud aparecerá en tu panel de administrador para revisarla y aprobarla cuando conectemos el servicio externo.";status.className="status-box show demo"}
     finally{submit.disabled=false;submit.textContent="Solicitar cita →"}
   });
   renderStep();

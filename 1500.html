@@ -29,7 +29,7 @@
         <a href="#servicios">Servicios</a>
         <a href="#galeria">Galería</a>
         <a href="#resenas">Reseñas</a>
-        <button class="nav-book" type="button" data-open-booking>Agendar cita</button>
+        <a href="cuenta.html">Mi cuenta</a><button class="nav-book" type="button" data-open-booking>Agendar cita</button>
         <div class="cart-total" aria-label="Total de reserva"><span>▣</span><b id="navTotal">$0</b></div>
       </nav>
     </div>
@@ -114,7 +114,7 @@
           <label><input type="checkbox" name="services" value="Corte de uñas" data-price="15"><span><b>Corte de uñas</b><small>Cuidado rápido y seguro</small></span><strong>$15</strong></label>
         </div><p class="price-note">Precios iniciales configurables desde el sistema.</p></div>
         <div class="wizard-step" data-step="3"><p class="wizard-intro">¿Cuándo te funciona?</p><div class="wizard-grid"><label>Fecha preferida<input required type="date" name="date"></label><label>Horario<select name="time"><option>Flexible</option><option>Mañana</option><option>Tarde</option></select></label></div><label>Notas<textarea name="notes" rows="4" placeholder="Edad, temperamento, necesidades especiales..."></textarea></label></div>
-        <div class="wizard-step" data-step="4"><p class="wizard-intro">Último paso. ¿Cómo confirmamos contigo?</p><div class="wizard-grid"><label>Tu nombre<input required name="name" autocomplete="name"></label><label>Teléfono<input required name="phone" autocomplete="tel"></label></div><label>Email<input required type="email" name="email" autocomplete="email"></label><div class="wizard-review" id="wizardReview"></div><div class="status-box" id="wizardStatus"></div></div>
+        <div class="wizard-step" data-step="4"><p class="wizard-intro">Último paso. ¿Cómo confirmamos contigo?</p><div class="wizard-grid"><label>Tu nombre<input required name="name" autocomplete="name"></label><label>Teléfono<input required name="phone" autocomplete="tel"></label></div><label>Email<input required type="email" name="email" autocomplete="email"></label><div class="wizard-review" id="wizardReview"></div><label class="payment-choice"><input type="checkbox" id="payOnline"><span><b>Pagar online</b><small>El pago se procesará con Stripe o el procesador que el negocio conecte.</small></span></label><div class="status-box" id="wizardStatus"></div></div>
         <footer class="wizard-actions"><button class="wizard-secondary" id="wizardBack" type="button">Atrás</button><button class="wizard-primary" id="wizardNext" type="button">Continuar →</button><button class="wizard-primary" id="wizardSubmit" type="submit">Solicitar cita →</button></footer>
       </form>
     </section>
