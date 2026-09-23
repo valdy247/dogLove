@@ -114,3 +114,28 @@ footer{background:#f1efec;padding:62px 0 22px}.footer-main{display:grid;grid-tem
 .booking-form{box-shadow:0 28px 80px rgba(35,26,99,.12)}
 @media(max-width:760px){.conversion-grid{grid-template-columns:1fr;gap:32px}.trust-strip{margin-top:16px}}
 .booking-assurance{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}.booking-assurance span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:.72rem;font-weight:700;background:var(--paper)}
+
+/* 1500-level presentation polish */
+.booking-hero{background:linear-gradient(135deg,#f7f4ff 0%,#fff 52%,#fff0df 100%);overflow:hidden}
+.booking-hero .container{align-items:center}
+.booking-hero-proof{display:flex;flex-wrap:wrap;gap:10px 18px;margin-top:26px;font-size:.78rem;font-weight:800;color:#555160}
+.booking-hero-card{justify-self:end;width:min(100%,390px);padding:32px;border-radius:32px;background:var(--ink);color:white;box-shadow:0 32px 80px rgba(24,19,63,.2);transform:rotate(1deg)}
+.booking-hero-card>span{font:800 .68rem Manrope,sans-serif;letter-spacing:.16em;color:#a99cff}
+.booking-hero-card strong{display:block;font:800 1.7rem Manrope,sans-serif;margin:34px 0 8px}
+.booking-hero-card p{color:#bdb9c8;margin:0 0 30px}
+.booking-hero-card a{display:inline-flex;background:white;color:var(--ink);padding:12px 17px;border-radius:999px;font-weight:900;font-size:.82rem}
+.booking-page .content-section{background:linear-gradient(180deg,#fff 0%,#faf8f5 100%)}
+.booking-page .booking-summary h2{letter-spacing:-.045em}
+.booking-page .booking-form{border:0;border-radius:34px;padding:38px;box-shadow:0 30px 90px rgba(25,20,69,.1)}
+.booking-page .field input,.booking-page .field select,.booking-page .field textarea{border-radius:12px;background:#fff;border-color:#d9d6df;padding:15px}
+.booking-page .booking-actions .primary{min-height:54px}
+@media(max-width:650px){
+ .page-hero.booking-hero{padding:112px 0 54px}
+ .booking-hero .container{gap:38px}
+ .booking-hero h1{font-size:clamp(2.7rem,12vw,4rem)}
+ .booking-hero p{font-size:1rem;line-height:1.65}
+ .booking-hero-card{justify-self:stretch;transform:none;padding:25px;border-radius:26px}
+ .booking-hero-card strong{margin-top:24px}
+ .booking-page .content-section{padding-top:54px}
+ .booking-page .booking-form{padding:20px;border-radius:24px}
+}
