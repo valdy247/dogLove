@@ -1,28 +1,45 @@
 # Pawsitive Love Dog — demos
 
-Este repo contiene tres páginas:
+## Entrada
+- `index.html`: selector entre la propuesta de **$500** y la de **$1,500**.
+- `500.html`: demo esencial.
+- `1500.html`: home de la experiencia premium.
 
-- `index.html`: selector de demos.
-- `500.html`: propuesta esencial de $500.
-- `1500.html`: propuesta premium de $1,500.
+## Versión premium de $1,500
+La demo premium está construida como una web completa:
+- `1500.html`: inicio.
+- `premium-services.html`: servicios.
+- `premium-about.html`: nosotros / enfoque.
+- `premium-gallery.html`: galería preparada para contenido real.
+- `premium-booking.html`: reserva, WhatsApp y flujo de pago.
 
-## Imagen del hero
-Sube la imagen principal al **root del repo** con este nombre exacto:
+Incluye diseño premium responsive, animaciones, formulario de reserva, eventos preparados para Analytics, SEO on-page/schema, automatización de solicitudes y checkout de Stripe preparado.
 
+### Imagen del hero
+Sube la imagen al root del repo con este nombre exacto:
 `fondo.jpg`
 
-Las dos demos la detectan automáticamente. Mientras no exista, muestran un fondo degradado para que la web no se rompa.
+### Activar Google Analytics
+En cada HTML premium se puede añadir el Measurement ID como atributo del elemento HTML:
+`<html lang="es" data-ga-id="G-XXXXXXXXXX">`
 
-## Demo premium
-La versión de $1,500 ya incluye:
-- navegación responsive;
-- animaciones de entrada;
-- galería preparada para fotos reales;
-- sección de testimonios sin inventar reseñas;
-- FAQ interactiva;
-- formulario de reserva;
-- envío de la solicitud por WhatsApp;
-- eventos preparados para Google Analytics mediante `gtag`;
-- estructura lista para conectar pagos online al publicar.
+El JavaScript cargará GA4 y registrará eventos como WhatsApp, teléfono, reserva y pago.
 
-Para activar Analytics solo falta añadir el ID GA4 real del cliente. Para pagos reales hará falta conectar el proveedor elegido (por ejemplo Stripe o Square) y sus credenciales.
+### Activar Stripe en Vercel
+Añadir estas variables:
+- `STRIPE_SECRET_KEY`
+- `STRIPE_GROOMING_PRICE_ID`
+- `STRIPE_TRAINING_PRICE_ID`
+- `STRIPE_CARE_PRICE_ID`
+
+Los Price IDs permiten que el dueño defina el depósito/precio real sin hardcodearlo en la web.
+
+### Activar automatización de reservas por email
+Añadir:
+- `RESEND_API_KEY`
+- `BOOKING_EMAIL_TO`
+- `BOOKING_EMAIL_FROM`
+
+La solicitud se envía por email y también prepara WhatsApp como vía de confirmación.
+
+No se inventaron precios, reseñas, ubicación ni fotos reales del negocio; esos datos se completan con la información del cliente.
