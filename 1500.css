@@ -113,3 +113,4 @@ footer{background:#f1efec;padding:62px 0 22px}.footer-main{display:grid;grid-tem
 .conversion-points span{display:grid;gap:3px}.conversion-points strong{font-size:1.05rem}.conversion-points small{color:var(--muted);font-size:.9rem;line-height:1.5}
 .booking-form{box-shadow:0 28px 80px rgba(35,26,99,.12)}
 @media(max-width:760px){.conversion-grid{grid-template-columns:1fr;gap:32px}.trust-strip{margin-top:16px}}
+.booking-assurance{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}.booking-assurance span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:.72rem;font-weight:700;background:var(--paper)}
