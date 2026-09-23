@@ -137,3 +137,59 @@ if(paymentStatus&&paymentFlag==="cancelled"){
   paymentStatus.className="status-box show warn";
   track("payment_cancelled");
 }
+
+const bookingDrawer=document.getElementById("bookingDrawer");
+const bookingWizard=document.getElementById("bookingWizard");
+if(bookingDrawer&&bookingWizard){
+  const breedNames=["Affenpinscher","Afghan Hound","Airedale Terrier","Akita","Alaskan Malamute","American Bulldog","American Eskimo Dog","American Staffordshire Terrier","Australian Cattle Dog","Australian Shepherd","Basenji","Basset Hound","Beagle","Belgian Malinois","Bernese Mountain Dog","Bichon Frise","Bloodhound","Border Collie","Boston Terrier","Boxer","Brittany","Bull Terrier","Bulldog","Cane Corso","Cavalier King Charles Spaniel","Chihuahua","Chinese Crested","Chow Chow","Cocker Spaniel","Collie","Dachshund","Dalmatian","Doberman Pinscher","English Cocker Spaniel","English Setter","English Springer Spaniel","French Bulldog","German Shepherd","German Shorthaired Pointer","Golden Retriever","Great Dane","Great Pyrenees","Greyhound","Havanese","Irish Setter","Jack Russell Terrier","Labrador Retriever","Lhasa Apso","Maltese","Mastiff","Miniature Pinscher","Miniature Schnauzer","Newfoundland","Papillon","Pekingese","Pembroke Welsh Corgi","Pomeranian","Poodle","Portuguese Water Dog","Pug","Rhodesian Ridgeback","Rottweiler","Saint Bernard","Samoyed","Schnauzer","Scottish Terrier","Shetland Sheepdog","Shiba Inu","Shih Tzu","Siberian Husky","Staffordshire Bull Terrier","Vizsla","Weimaraner","West Highland White Terrier","Whippet","Yorkshire Terrier","Mixed Breed"];
+  let step=1;
+  const steps=[...bookingWizard.querySelectorAll(".wizard-step")];
+  const back=document.getElementById("wizardBack"),next=document.getElementById("wizardNext"),submit=document.getElementById("wizardSubmit");
+  const totalEls=[document.getElementById("wizardTotal"),document.getElementById("navTotal")];
+  const progressEl=document.getElementById("wizardProgress"),stepLabel=document.getElementById("wizardStepLabel"),title=document.getElementById("wizardTitle");
+  const titles=["Tu mascota","Servicios","Fecha y detalles","Confirmación"];
+  const serviceChecks=[...bookingWizard.querySelectorAll('input[name="services"]')];
+  const total=()=>serviceChecks.filter(x=>x.checked).reduce((n,x)=>n+Number(x.dataset.price||0),0);
+  const refreshTotal=()=>totalEls.forEach(x=>{if(x)x.textContent="$"+total()});
+  serviceChecks.forEach(x=>x.addEventListener("change",refreshTotal));refreshTotal();
+  function renderStep(){
+    steps.forEach((x,i)=>x.classList.toggle("active",i===step-1));
+    progressEl.style.width=(step*25)+"%";stepLabel.textContent="PASO "+step+" DE 4";title.textContent=titles[step-1];
+    back.style.visibility=step===1?"hidden":"visible";next.style.display=step===4?"none":"inline-block";submit.style.display=step===4?"inline-block":"none";
+    if(step===4){
+      const fd=new FormData(bookingWizard),services=serviceChecks.filter(x=>x.checked).map(x=>x.value);
+      document.getElementById("wizardReview").innerHTML=`<div><span>Mascota</span><b>${fd.get("pet")||""}</b></div><div><span>Raza</span><b>${fd.get("breed")||""}</b></div><div><span>Servicios</span><b>${services.join(", ")}</b></div><div><span>Total estimado</span><b>$${total()}</b></div>`;
+    }
+  }
+  function validCurrent(){
+    if(step===2&&!serviceChecks.some(x=>x.checked)){alert("Selecciona al menos un servicio.");return false}
+    const required=[...steps[step-1].querySelectorAll("[required]")];
+    for(const el of required){if(!el.reportValidity())return false}return true;
+  }
+  document.querySelectorAll("[data-open-booking]").forEach(x=>x.addEventListener("click",()=>{bookingDrawer.classList.add("open");bookingDrawer.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";step=1;renderStep()}));
+  document.querySelectorAll("[data-close-booking]").forEach(x=>x.addEventListener("click",()=>{bookingDrawer.classList.remove("open");bookingDrawer.setAttribute("aria-hidden","true");document.body.style.overflow=""}));
+  next.addEventListener("click",()=>{if(validCurrent()){step++;renderStep()}});
+  back.addEventListener("click",()=>{if(step>1){step--;renderStep()}});
+  const breedInput=document.getElementById("breedInput"),breedResults=document.getElementById("breedResults");
+  function showBreeds(){
+    const q=breedInput.value.trim().toLowerCase();
+    if(!q){breedResults.classList.remove("show");return}
+    const matches=breedNames.filter(x=>x.toLowerCase().includes(q)).slice(0,8);
+    breedResults.innerHTML=matches.map(x=>`<button type="button">${x}</button>`).join("");
+    breedResults.classList.toggle("show",matches.length>0);
+    breedResults.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{breedInput.value=b.textContent;breedResults.classList.remove("show")}));
+  }
+  breedInput.addEventListener("input",showBreeds);
+  document.addEventListener("click",e=>{if(!e.target.closest(".breed-combobox"))breedResults.classList.remove("show")});
+  const dateInput=bookingWizard.querySelector('[name="date"]');if(dateInput)dateInput.min=new Date().toISOString().split("T")[0];
+  bookingWizard.addEventListener("submit",async e=>{
+    e.preventDefault();if(!validCurrent())return;
+    const fd=new FormData(bookingWizard),services=serviceChecks.filter(x=>x.checked).map(x=>x.value);
+    const data=Object.fromEntries(fd.entries());data.services=services;data.service=services.join(", ");data.total=total();
+    const status=document.getElementById("wizardStatus");submit.disabled=true;submit.textContent="Enviando…";
+    try{const r=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});const out=await r.json();status.textContent=out?.saved||out?.sent?"Solicitud recibida. Te contactaremos para confirmar la cita.":"No pudimos guardar la solicitud. Intenta de nuevo.";status.className="status-box show "+(out?.saved||out?.sent?"ok":"warn");if(out?.saved||out?.sent)bookingWizard.reset();refreshTotal()}
+    catch{status.textContent="No pudimos enviar la solicitud. Intenta de nuevo.";status.className="status-box show warn"}
+    finally{submit.disabled=false;submit.textContent="Solicitar cita →"}
+  });
+  renderStep();
+}
