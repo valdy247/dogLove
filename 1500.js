@@ -2,99 +2,124 @@ const header=document.querySelector(".site-header");
 const progress=document.getElementById("progress");
 const menuToggle=document.getElementById("menuToggle");
 const nav=document.getElementById("nav");
-const modal=document.getElementById("bookingModal");
-const serviceSelect=document.getElementById("serviceSelect");
-const bookingForm=document.getElementById("bookingForm");
 
-function track(eventName,params={}){
-  if(typeof window.gtag==="function") window.gtag("event",eventName,params);
-  console.info("[analytics-ready]",eventName,params);
+function track(name,params={}){
+  if(typeof window.gtag==="function") window.gtag("event",name,params);
+  console.info("[analytics-ready]",name,params);
 }
+
+function initAnalytics(){
+  const id=document.documentElement.dataset.gaId||"";
+  if(!/^G-[A-Z0-9]+$/i.test(id)) return;
+  const s=document.createElement("script");
+  s.async=true;s.src="https://www.googletagmanager.com/gtag/js?id="+encodeURIComponent(id);
+  document.head.appendChild(s);
+  window.dataLayer=window.dataLayer||[];
+  window.gtag=function(){dataLayer.push(arguments)};
+  gtag("js",new Date());gtag("config",id);
+}
+initAnalytics();
 
 function onScroll(){
-  header.classList.toggle("scrolled",window.scrollY>20);
-  const max=document.documentElement.scrollHeight-window.innerHeight;
-  progress.style.width=(max?window.scrollY/max*100:0)+"%";
+  if(header) header.classList.toggle("scrolled",window.scrollY>20);
+  if(progress){
+    const max=document.documentElement.scrollHeight-window.innerHeight;
+    progress.style.width=(max?window.scrollY/max*100:0)+"%";
+  }
 }
-window.addEventListener("scroll",onScroll,{passive:true});
-onScroll();
+window.addEventListener("scroll",onScroll,{passive:true});onScroll();
 
-menuToggle.addEventListener("click",()=>{
-  const open=nav.classList.toggle("open");
-  menuToggle.setAttribute("aria-expanded",String(open));
-});
-nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
-
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
+if(menuToggle&&nav){
+  menuToggle.addEventListener("click",()=>{
+    const open=nav.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded",String(open));
   });
+  nav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>nav.classList.remove("open")));
+}
+
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");revealObserver.unobserve(e.target)}})
 },{threshold:.12});
-document.querySelectorAll(".reveal").forEach(el=>observer.observe(el));
+document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el));
 
-document.querySelectorAll(".faq-item>button").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const item=btn.closest(".faq-item");
-    document.querySelectorAll(".faq-item.open").forEach(x=>{if(x!==item)x.classList.remove("open")});
-    item.classList.toggle("open");
+document.querySelectorAll('a[href*="wa.me"]').forEach(a=>a.addEventListener("click",()=>track("whatsapp_click",{href:a.href})));
+document.querySelectorAll('a[href^="tel:"]').forEach(a=>a.addEventListener("click",()=>track("phone_click")));
+
+const bookingForm=document.getElementById("bookingForm");
+if(bookingForm){
+  const dateInput=bookingForm.querySelector('input[name="date"]');
+  if(dateInput) dateInput.min=new Date().toISOString().split("T")[0];
+
+  const service=bookingForm.querySelector('[name="service"]');
+  const date=bookingForm.querySelector('[name="date"]');
+  const pet=bookingForm.querySelector('[name="pet"]');
+  const summaryService=document.getElementById("summaryService");
+  const summaryDate=document.getElementById("summaryDate");
+  const summaryPet=document.getElementById("summaryPet");
+  const status=document.getElementById("bookingStatus");
+
+  const refresh=()=>{
+    if(summaryService) summaryService.textContent=service?.value||"Por elegir";
+    if(summaryDate) summaryDate.textContent=date?.value||"Por elegir";
+    if(summaryPet) summaryPet.textContent=pet?.value||"Por indicar";
+  };
+  [service,date,pet].forEach(el=>el?.addEventListener("input",refresh));refresh();
+
+  function getPayload(){
+    return Object.fromEntries(new FormData(bookingForm).entries());
+  }
+  function showStatus(message,type="warn"){
+    if(!status)return;
+    status.textContent=message;
+    status.className="status-box show "+type;
+  }
+  function whatsappMessage(data){
+    return [
+      "Hola Pawsitive Love Dog 🐾","",
+      "Quiero solicitar una cita.",
+      "Nombre: "+(data.name||""),
+      "Teléfono: "+(data.phone||""),
+      "Mascota: "+(data.pet||""),
+      "Servicio: "+(data.service||""),
+      "Fecha: "+(data.date||"Por coordinar"),
+      "Horario: "+(data.time||"Flexible"),
+      "Notas: "+(data.notes||"Ninguna")
+    ].join("\n");
+  }
+
+  bookingForm.addEventListener("submit",async e=>{
+    e.preventDefault();
+    if(!bookingForm.reportValidity()) return;
+    const data=getPayload();
+    track("booking_submit",{service:data.service});
+    try{
+      const r=await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)});
+      const out=await r.json();
+      if(out?.sent) showStatus("Solicitud enviada. También abriremos WhatsApp para confirmar.","ok");
+      else showStatus("La automatización por email quedará activa al conectar la cuenta del negocio. Abriremos WhatsApp para confirmar.","warn");
+    }catch{
+      showStatus("La solicitud está lista. Abriremos WhatsApp para confirmar.","warn");
+    }
+    window.open("https://wa.me/13059343028?text="+encodeURIComponent(whatsappMessage(data)),"_blank","noopener");
   });
-});
 
-function openBooking(service=""){
-  if(service&&serviceSelect) serviceSelect.value=service;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-  document.body.classList.add("modal-open");
-  track("booking_open",{service:service||"unspecified"});
-  setTimeout(()=>modal.querySelector("input")?.focus(),100);
+  const pay=document.getElementById("payDeposit");
+  if(pay){
+    pay.addEventListener("click",async()=>{
+      if(!bookingForm.reportValidity()) return;
+      const data=getPayload();
+      track("payment_start",{service:data.service});
+      pay.disabled=true;pay.textContent="Preparando pago…";
+      try{
+        const r=await fetch("/api/create-checkout",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({service:data.service})});
+        const out=await r.json();
+        if(out?.url){window.location.href=out.url;return}
+        showStatus("El flujo de pago ya está preparado. Para cobrar de verdad solo falta conectar la cuenta Stripe del negocio.","warn");
+      }catch{
+        showStatus("El flujo de pago está preparado; se activa al conectar Stripe en Vercel.","warn");
+      }finally{
+        pay.disabled=false;pay.innerHTML="Pagar depósito <span>↗</span>";
+      }
+    });
+  }
 }
-function closeBooking(){
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden","true");
-  document.body.classList.remove("modal-open");
-}
-document.querySelectorAll(".js-book").forEach(btn=>btn.addEventListener("click",()=>openBooking()));
-document.querySelectorAll(".js-service").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-    const service=btn.dataset.service||btn.closest("[data-service]")?.dataset.service||"";
-    openBooking(service);
-  });
-});
-document.querySelectorAll("[data-close]").forEach(el=>el.addEventListener("click",closeBooking));
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeBooking()});
-
-bookingForm.addEventListener("submit",e=>{
-  e.preventDefault();
-  const data=new FormData(bookingForm);
-  const name=data.get("name")||"";
-  const phone=data.get("phone")||"";
-  const pet=data.get("pet")||"";
-  const service=data.get("service")||"";
-  const date=data.get("date")||"Por coordinar";
-  const time=data.get("time")||"Flexible";
-  const notes=data.get("notes")||"Ninguna";
-  const message=[
-    "Hola Pawsitive Love Dog 🐾",
-    "",
-    "Me gustaría solicitar una cita.",
-    `Nombre: ${name}`,
-    `Teléfono: ${phone}`,
-    `Mascota: ${pet}`,
-    `Servicio: ${service}`,
-    `Fecha preferida: ${date}`,
-    `Horario: ${time}`,
-    `Notas: ${notes}`
-  ].join("\n");
-  track("booking_submit",{service});
-  window.open("https://wa.me/13059343028?text="+encodeURIComponent(message),"_blank","noopener");
-});
-
-document.querySelectorAll('a[href^="https://wa.me"]').forEach(link=>{
-  link.addEventListener("click",()=>track("whatsapp_click",{location:"site"}));
-});
-document.querySelectorAll('a[href^="tel:"]').forEach(link=>{
-  link.addEventListener("click",()=>track("phone_click"));
-});
