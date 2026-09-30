@@ -193,3 +193,37 @@ if(bookingDrawer&&bookingWizard){
   });
   renderStep();
 }
+
+
+const clubModal=document.getElementById("clubModal");
+const clubForm=document.getElementById("clubForm");
+if(clubModal&&clubForm){
+  const openClub=()=>{clubModal.classList.add("open");clubModal.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";track("routine_club_open")};
+  const closeClub=()=>{clubModal.classList.remove("open");clubModal.setAttribute("aria-hidden","true");document.body.style.overflow=""};
+  document.querySelectorAll("[data-open-club]").forEach(x=>x.addEventListener("click",openClub));
+  document.querySelectorAll("[data-close-club]").forEach(x=>x.addEventListener("click",closeClub));
+  clubForm.addEventListener("submit",async e=>{
+    e.preventDefault();
+    if(!clubForm.reportValidity()) return;
+    const data=Object.fromEntries(new FormData(clubForm).entries());
+    const status=document.getElementById("clubStatus");
+    const submit=clubForm.querySelector(".club-submit");
+    submit.disabled=true;submit.textContent="Enviando…";
+    const payload={
+      name:data.name,email:data.email,phone:data.phone,pet:data.pet,breed:data.breed,
+      services:["Routine Club · "+data.cadence],
+      service:"Routine Club · "+data.cadence,
+      total:0,date:"",time:"Membership",
+      notes:[data.notes||"","Membership request: "+data.cadence].filter(Boolean).join(" · ")
+    };
+    try{
+      await fetch("/api/booking",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+      status.innerHTML='Solicitud recibida. El siguiente paso es crear tu Pet Portal para guardar el perfil de '+String(data.pet).replace(/[<>]/g,"")+'. <a href="cuenta.html?mode=signup">Crear mi cuenta →</a>';
+      status.className="status-box show ok";
+      track("routine_club_submit",{cadence:data.cadence});
+    }catch{
+      status.textContent="Tu solicitud está lista, pero no pudimos guardarla en este momento.";
+      status.className="status-box show warn";
+    }finally{submit.disabled=false;submit.textContent="Solicitar membresía ↗"}
+  });
+}
