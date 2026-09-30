@@ -21,7 +21,7 @@ module.exports = async function handler(req,res){
     let sent=false;
     const apiKey=process.env.RESEND_API_KEY,to=process.env.BOOKING_EMAIL_TO,from=process.env.BOOKING_EMAIL_FROM;
     if(apiKey&&to&&from){
-      const text=["Nueva solicitud de Pawsitive Love Dog","",
+      const text=["Nueva solicitud de Marlow Pet Atelier","",
         "Cliente: "+name,"Email: "+email,"Teléfono: "+phone,
         "Mascota: "+pet,"Raza: "+breed,
         "Servicios: "+selected.join(", "),"Total estimado: $"+(Number(total)||0),
