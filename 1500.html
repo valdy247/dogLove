@@ -67,7 +67,7 @@
       <span>02 / ROUTINE CLUB</span><h2>The best groom is<br><em>the one that stays easy.</em></h2>
       <p>Los mejores resultados vienen de una rutina constante. Nuestro concepto de membresía convierte el grooming en mantenimiento preventivo, no en una emergencia cada tres meses.</p>
       <div class="routine-list"><div><b>01</b><span>Prioridad de agenda</span></div><div><b>02</b><span>Precio preferente en add-ons</span></div><div><b>03</b><span>Historial de cuidado por mascota</span></div><div><b>04</b><span>Recordatorios automáticos</span></div></div>
-      <button class="atelier-primary" data-open-booking>Join the routine ↗</button>
+      <button class="atelier-primary" data-open-club>Join the Routine Club ↗</button>
     </div>
   </div>
 </section>
@@ -99,6 +99,28 @@
   <div class="container"><span>READY WHEN THEY ARE</span><h2>Give your dog a better<br>grooming routine.</h2><button data-open-booking>Book an appointment ↗</button></div>
 </section>
 </main>
+
+<div class="club-modal" id="clubModal" aria-hidden="true">
+  <button class="club-backdrop" type="button" data-close-club aria-label="Cerrar"></button>
+  <section class="club-panel" role="dialog" aria-modal="true" aria-labelledby="clubTitle">
+    <header><div><span>MARLOW ROUTINE CLUB</span><h2 id="clubTitle">A better routine,<br>built around your dog.</h2></div><button type="button" data-close-club aria-label="Cerrar">×</button></header>
+    <p class="club-intro">Elige cada cuánto quieres mantener el grooming al día. Esto no reserva una cita: crea tu solicitud de membresía y luego configuramos tu primera visita.</p>
+    <form id="clubForm">
+      <div class="club-options">
+        <label><input type="radio" name="cadence" value="Every 4 weeks" required><span><b>Every 4 weeks</b><small>Para coats de alto mantenimiento y look siempre fresco.</small></span></label>
+        <label><input type="radio" name="cadence" value="Every 6 weeks" required><span><b>Every 6 weeks</b><small>La rutina más equilibrada para la mayoría de los perros.</small></span></label>
+        <label><input type="radio" name="cadence" value="Every 8 weeks" required><span><b>Every 8 weeks</b><small>Mantenimiento ligero y recordatorios automáticos.</small></span></label>
+      </div>
+      <div class="wizard-grid"><label>Tu nombre<input name="name" required></label><label>Teléfono<input name="phone" required></label></div>
+      <div class="wizard-grid"><label>Email<input type="email" name="email" required></label><label>Nombre de tu mascota<input name="pet" required></label></div>
+      <label>Raza<input name="breed" required></label>
+      <label>Notas<textarea name="notes" rows="3" placeholder="Tipo de coat, sensibilidad, estilo preferido..."></textarea></label>
+      <div class="club-benefits"><span>✓ Priority scheduling</span><span>✓ Preferred add-on pricing</span><span>✓ Pet care history</span><span>✓ Automatic reminders</span></div>
+      <button class="club-submit" type="submit">Solicitar membresía ↗</button>
+      <div class="status-box" id="clubStatus"></div>
+    </form>
+  </section>
+</div>
 
 <div class="booking-drawer" id="bookingDrawer" aria-hidden="true">
 <button class="drawer-backdrop" type="button" data-close-booking aria-label="Cerrar"></button>
